@@ -25,14 +25,12 @@ How to Use:
                     Commands:  
                         IMPORTANT:
                         !defaultchannel- sets the default channel that the bot will generate pokemon to. Should do as soon as you start the code.
-                        --------------------------------------
                         !pmhelp gives the list of commands.  
                         !pmstarter- lets you chose a starter if you don't have one already  
                         !pmbp- lets you view your backpack  
                         !pmclaim- lets you claim an event pokemon  
                         !pmbat- lets you battle another trainer  
                         !pmtrade- lets you trade pokemon   
-                        -----------------------------------
                         !generate- testing legacy command that lets you generate a random gen1 Pokemon (generated every 5 minutes)
                         !save- command for testing the saving of the XMLs 
                         
