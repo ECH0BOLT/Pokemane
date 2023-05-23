@@ -40,7 +40,7 @@ public class PokemonBot {
         // login you can change the token to use on your own personal bots just
         // rememeber to change back when committing
         DiscordApi api = new DiscordApiBuilder()
-                .setToken("MTEwMzM5MzAzMDA3OTI1MDU4NA.G-Md0t.8lbBNUlM0IVvPuDfafqqvMF3_0-85LJkum1Ddk")
+                .setToken("placeholder")
                 .addIntents(Intent.MESSAGE_CONTENT)
                 .login().join();
 
