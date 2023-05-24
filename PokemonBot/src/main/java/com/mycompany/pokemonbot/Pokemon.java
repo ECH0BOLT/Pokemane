@@ -79,6 +79,19 @@ public class Pokemon {
         generate(random.nextInt(149) + 1, (random.nextInt(102) + 1));
     }
 
+    Pokemon(int idNumber) throws SAXException, IOException, ParserConfigurationException {
+        if (normalized == false) {
+            document.getDocumentElement().normalize();
+            allPokemon = document.getElementsByTagName("species");
+            normalized = true;
+            writeCPMs();
+        }
+        ivs[0] = random.nextInt(16);
+        ivs[1] = random.nextInt(16);
+        ivs[2] = random.nextInt(16);
+        generate(idNumber, (random.nextInt(102) + 1));
+    }
+
     // Generates a pokemon of specified type and level
     // Primary example is the generation of starters in Storage.java
     Pokemon(int idNumber, int level) throws SAXException, IOException, ParserConfigurationException {
@@ -104,7 +117,7 @@ public class Pokemon {
         System.out.println("generating random");
         this.idNumber = idNumber;
         this.level = level;
-        Node nNode = allPokemon.item(idNumber);
+        Node nNode = allPokemon.item(idNumber - 1);
         Element eElement = (Element) nNode;
         species = eElement.getElementsByTagName("name").item(0).getTextContent().trim();
         // Takes the base stats found in the standard pokemon games
@@ -220,19 +233,29 @@ public class Pokemon {
     }
 
     public int getBaseForm() {
-        Boolean done = false;
-        int currentPosition = idNumber - 1;
-        while (!done) {
-            Node currentPokemon = allPokemon.item(currentPosition);
-            Element pokemonElement = (Element) currentPokemon;
-            System.out.println("currentPosition = " + currentPosition);
-            if (pokemonElement.getElementsByTagName("evolution").getLength() != 0 && currentPosition != 0) {
-                currentPosition--;
-            } else {
-                done = true;
-            }
-        }
-        return currentPosition;
+        if (idNumber < 4) return 1;
+        //eevee handling
+        if (idNumber > 132 && idNumber < 137) return 133;
+
+        int currentPosition = idNumber;
+        Node currentPokemon = allPokemon.item(currentPosition - 1);
+        Node prevPokemon = allPokemon.item(currentPosition - 2);
+        Node prev2Pokemon = allPokemon.item(currentPosition - 3);
+        Element pokemonElement = (Element) currentPokemon;
+        Element prevElement = (Element) prevPokemon;
+        Element prev2Element = (Element) prev2Pokemon;
+        System.out.println("currentPosition = " + (currentPosition));
+        if (pokemonElement.getElementsByTagName("evolution").getLength() == 0 && prevElement.getElementsByTagName("evolution").getLength() != 0 && prev2Element.getElementsByTagName("evolution").getLength() != 0) {
+            return currentPosition - 2;
+        } else if (pokemonElement.getElementsByTagName("evolution").getLength() == 0 && prevElement.getElementsByTagName("evolution").getLength() != 0 && prev2Element.getElementsByTagName("evolution").getLength() == 0) {
+            return currentPosition - 1;
+        } else if (pokemonElement.getElementsByTagName("evolution").getLength() == 0 && prevElement.getElementsByTagName("evolution").getLength() == 0) {
+            return currentPosition;
+        } else if (pokemonElement.getElementsByTagName("evolution").getLength() != 0 && prevElement.getElementsByTagName("evolution").getLength() == 0) {
+            return currentPosition;
+        } else if (pokemonElement.getElementsByTagName("evolution").getLength() != 0 && prevElement.getElementsByTagName("evolution").getLength() != 0) {
+            return currentPosition - 1;
+        } else return currentPosition;
     }
 
     public int getEvolutionCost() {
@@ -262,7 +285,7 @@ public class Pokemon {
 
     // returns url for pokemon's picture as a string
     public String getSpeciesPicture() {
-        Node nNode = allPokemon.item(idNumber);
+        Node nNode = allPokemon.item(idNumber - 1);
         Element eElement = (Element) nNode;
         return eElement.getElementsByTagName("picture").item(0).getTextContent().trim();
     }

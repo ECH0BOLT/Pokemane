@@ -189,7 +189,8 @@ public class UserCommands {
             case "!generate":
                 // temp command that generates an event/"wild" Pokemon
 
-                if(adam.getIdAsString().contentEquals("251887678935662602")) { generate(channel); }
+                if(adam.getIdAsString().contentEquals("251887678935662602") || adam.getIdAsString().contentEquals("1110682517658402897")) {
+                    if(split.length == 3){generateSpeciesLevel(channel, split[1], split[2]);}else if(split.length == 2){generateSpecies(channel, split[1]);} else generate(channel);}
 //                channel.sendMessage(adam.getIdAsString());
                 break;
 
@@ -250,11 +251,11 @@ public class UserCommands {
             // buttonEvent.getButtonInteraction().getMessage().delete();
 
             if (buttonCustomId.equals("Charmander")) {
-                chosenStarter = 3;
+                chosenStarter = 4;
             } else if (buttonCustomId.equals("Squirtle")) {
-                chosenStarter = 6;
+                chosenStarter = 7;
             } else if (buttonCustomId.equals("Bulbasaur")) {
-                chosenStarter = 0;
+                chosenStarter = 1;
             }
             try {
                 Pokemon p = new Pokemon(chosenStarter, 10);
@@ -388,12 +389,14 @@ public class UserCommands {
                     }
                     if (buttonCustomId.equals("evolve")) {
                         // add to check the evolve level
-                        if (adamStorage.getCandy()[mentionedPokemon.getID()] >= mentionedPokemon.getEvolutionCost()
+                        if (adamStorage.getCandy()[mentionedPokemon.getBaseForm()] >= mentionedPokemon.getEvolutionCost()
                                 && mentionedPokemon.getEvolutionCost() != -1) {
+                            adamStorage.changeCandy(mentionedPokemon.getBaseForm(), -mentionedPokemon.getEvolutionCost());
                             mentionedPokemon.evolve();
-                            adamStorage.changeCandy(mentionedPokemon.getID(), -mentionedPokemon.getEvolutionCost());
+                        }else if(mentionedPokemon.getEvolutionCost() == -1){ch.sendMessage(mentionedPokemon.getSpecies() + " does not evolve");
+
                         } else {
-                            ch.sendMessage("Not enough candies to evolve");
+                            ch.sendMessage("Not enough candies to evolve ");
                         }
                     }
                     new MessageUpdater(buttonEvent.getButtonInteraction().getMessage())
@@ -491,19 +494,35 @@ public class UserCommands {
         try {
             recent = new Pokemon();
             channel.sendMessage(recent.toMessage());
+//            channel.sendMessage("ID: " + String.valueOf(recent.getID()) + " Base Form: " + String.valueOf(recent.getBaseForm()));
+
         } catch (SAXException | IOException | ParserConfigurationException e) {
             e.printStackTrace();
         }
     }
 
-    public void gimme(TextChannel channel) {
+    public void generateSpecies(TextChannel channel, String id) {
+        // temp command that generates an event/"wild" Pokemon
         try {
-            recent = new Pokemon(150, 100);
+            recent = new Pokemon(Integer.parseInt(id));
             channel.sendMessage(recent.toMessage());
+//            channel.sendMessage("ID: " + String.valueOf(recent.getID()) + " Base Form: " + String.valueOf(recent.getBaseForm()));
+
+
         } catch (SAXException | IOException | ParserConfigurationException e) {
             e.printStackTrace();
         }
+    }
+    public void generateSpeciesLevel(TextChannel channel, String id, String level) {
+        // temp command that generates an event/"wild" Pokemon
+        try {
+            recent = new Pokemon(Integer.parseInt(id), Integer.parseInt(level));
+            channel.sendMessage(recent.toMessage());
+//            channel.sendMessage("ID: " + String.valueOf(recent.getID()) + " Base Form: " + String.valueOf(recent.getBaseForm()));
 
+        } catch (SAXException | IOException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     public void tradeButton(ButtonClickEvent buttonEvent, DiscordApi api) {

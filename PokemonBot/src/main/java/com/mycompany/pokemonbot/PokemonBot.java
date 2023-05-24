@@ -13,11 +13,7 @@ import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 import org.xml.sax.SAXException;
 
-/**
- * @group The People Project
- * @author @BrandonDeB, @YamiKir
- * @date 4/11/2023
- */
+
 public class PokemonBot {
 
     private static final Map<Long, PokemonBot> bots = new HashMap<Long, PokemonBot>();
@@ -161,23 +157,11 @@ public class PokemonBot {
             }
         };
 
-        TimerTask gimme = new TimerTask() {
-            @Override
-        public void run() {
-
-            for (Map.Entry<Long, PokemonBot> entry : bots.entrySet()) {
-                entry.getValue().commands.gimme(entry.getValue().defaultChannel);
-            }
-
-        }
-        };
 
         // saves all storages every 5 minutes
         timer.schedule(saveAll, 0L, 1000 * 60 * 5);
         // generates new pokemon every 2 minutes
         timer.schedule(generate, 0L, 1000 * 60 * 15);
-//        timer.schedule(gimme, 0L, 1000 * 60 * 15);
-
 
     }
 
