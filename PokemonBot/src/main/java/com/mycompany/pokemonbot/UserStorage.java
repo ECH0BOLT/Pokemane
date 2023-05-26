@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserStorage {
-    int[] candyStorage = new int[151];
+    int[] candyStorage = new int[152];
     ArrayList<Pokemon> pokemonList = new ArrayList<Pokemon>();
     ArrayList<Pokemon> battleList = new ArrayList<Pokemon>();
     Pokemon trade = null;
@@ -114,11 +114,11 @@ public class UserStorage {
         for (Pokemon p : pokemonList) {
 
             if (p.getSpecies().equals(species)) {
-                System.out.println("Species was matched!");
+//                System.out.println("Species was matched!");
                 if (p.getCP() == cp && p.getLevel() == level) {
-                    System.out.println("CP and LVL was matched!");
+//                    System.out.println("CP and LVL was matched!");
                     if (p.getTypeOne().equals(typeOne) && p.getTypeTwo().equals(typeTwo)) {
-                        System.out.println("MATCH FOUND!");
+//                        System.out.println("MATCH FOUND!");
                         return p;
                     }
                 }
