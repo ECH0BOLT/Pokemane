@@ -2,8 +2,6 @@
 
 A Discord Bot allowing users to interact with their friends by way of Catching Pokémon, Trading, Battling, and more!
 
-Creators: Garrett Keaton, Hayden Duplantier, Spencer Malone, Jonathan Lagarrigue, Koby Ramsey, Brandon de Baroncelli  
-
 How to Set Up:  
   1. Pull all files from this repository  
   2. Open the file in any desired IDE.  
